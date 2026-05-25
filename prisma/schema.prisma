@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Job {
+  id        String   @id @default(uuid())
+  company   String
+  role      String
+  ral       Float
+  modality  String
+  city      String
+  status    String   @default("applied")
+  appliedAt String
+  nextStep  String?
+  contact   String?
+  link      String
+  notes     String?
+  stacks    Stack[]
+}
+
+model Stack {
+  id    String @id @default(uuid())
+  stack String
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+}
